@@ -1,6 +1,6 @@
 <?php
 session_start();
-
+include 'db-config.php';
 // Connect to the database
 $db = mysqli_connect('localhost', 'username', 'password', 'service_management');
 

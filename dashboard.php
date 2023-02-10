@@ -6,10 +6,7 @@
   }
 
   // Connect to the database
-  $host = "localhost";
-  $user = "database_user";
-  $password = "database_password";
-  $dbname = "database_name";
+  include 'db-config.php';
   $conn = mysqli_connect($host, $user, $password, $dbname);
 
   if (!$conn) {
@@ -33,19 +30,28 @@
 ?>
 <html>
   <head>
-    <title>Service Management</title>
+    <title>Zarządzanie usługami</title>
   </head>
   <body>
-    <h1>Service Management</h1>
+    <h1>Wybierz usluge z listy</h1>
     <form action="" method="post">
-      <select name="service">
-        <?php foreach ($services as $service => $status): ?>
-          <option value="<?= $service ?>"><?= "[$status] $service" ?></option>
-        <?php endforeach; ?>
-      </select>
-      <input type="submit" name="start" value="Start">
-      <input type="submit" name="stop" value="Stop">
-    </form>
+      <label for="services">Select a Service:</label>
+        <select name="services" id="services">
+          <?php
+            $services = array("apache2", "ssh");
+            foreach ($services as $service) {
+              $output = shell_exec("systemctl is-active $service");
+              $status = trim($output);
+              if ($status == "active") {
+                echo "<option value='$service'>[Running] $service</option>";
+              } else {
+                echo "<option value='$service'>[Stopped] $service</option>";
+              }
+            }
+          ?>
+        </select>
+    <input type="submit" value="Start/Stop">
+  </form>
   </body>
 </html>
 
