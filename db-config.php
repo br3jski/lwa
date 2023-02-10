@@ -1,6 +1,7 @@
-// db-config.php
-//Edit here
+
 <?php
+  // db-config.php
+  // Edit here
   $host = 'localhost';
   $user = 'database_user';
   $password = 'password';
